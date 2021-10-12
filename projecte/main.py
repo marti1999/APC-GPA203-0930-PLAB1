@@ -59,6 +59,11 @@ if __name__ == '__main__':
     # Solo se ve en jupyter
     database.corr().style.applymap(undeline).applymap(negatives)
 
+    for i in database.columns:
+
+        v= database.iplot(kind="box")
+        print("hola")
+
     """for column in database.columns:
         sns.distplot(database[column])
         plt.show()
