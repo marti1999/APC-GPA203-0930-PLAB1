@@ -1,3 +1,5 @@
+from sklearn.preprocessing import StandardScaler
+
 if __name__ == '__main__':
     from sklearn.datasets import make_regression
     from sklearn.model_selection import train_test_split
@@ -29,11 +31,18 @@ if __name__ == '__main__':
     from sklearn.metrics import mean_squared_error, r2_score
 
     X = database
-    database.drop(columns=['CRIM', 'ZN', 'CHAS', 'NOX', 'AGE', 'DIS', 'RAD', 'B'])
+
+    #database.drop(columns=['CRIM', 'ZN', 'CHAS', 'NOX', 'AGE', 'DIS', 'RAD', 'B'])
+
 
 
     y = X.MEDV
     X = X.drop(columns='MEDV')
+
+    scaler = StandardScaler()
+    scaler.fit(X)
+    X = scaler.transform(X)
+
 
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1845)
@@ -46,16 +55,16 @@ if __name__ == '__main__':
 
     X_testValues = X_test.values
     y_testValues = y_test.values
-
-    plt.plot(X_test.values, y_test.values, 'o', alpha=0.5)
-    plt.plot(X_test.values, y_pred, 'r', alpha=0.5)
-    plt.show()
+    #
+    # plt.plot(X_test.values, y_test.values, 'o', alpha=0.5)
+    # plt.plot(X_test.values, y_pred, 'r', alpha=0.5)
+    # plt.show()
 
 
     print("Coefficients:", regr.coef_)
     print("Intercept:", regr.intercept_)
-    print("Mean Squared Error: ", mean_squared_error(y_test, y_pred))
-    print("Coefficient of determination: ", r2_score(y_test, y_pred))
+    print("Mean Squared Error: ", mean_squared_error(y_testValues, y_pred))
+    print("Coefficient of determination: ", r2_score(y_testValues, y_pred))
 
 
 
