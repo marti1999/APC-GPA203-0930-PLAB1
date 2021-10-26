@@ -35,7 +35,7 @@ def func(a, b, x_train, y_train, N):
     return sum/ N
 
 
-gy = 30
+gy = 40
 gx = -gy
 res = 100
 _A = np.linspace(gx, gy, res)
@@ -48,18 +48,20 @@ for ia, a in enumerate(_A):
         _Cost[ib, ia] = func(a, b, x_train, y_train, N)
 
 plt.contourf(_A, _B, _Cost, 100)
+plt.xlabel("A")
+plt.ylabel("B")
 plt.colorbar()
 Theta = np.random.rand(2) * gy
-
+print("Starting point: ", Theta)
 _T = np.copy(Theta)
 
 alpha = 0.01
-lr = 0.01
+lr = 0.02
 
 plt.plot(Theta[0], Theta[1], "o", c="white")
 
 gr = np.zeros(2)
-nRep = 10000
+nRep = 5000
 
 for m in range(nRep):
     for it, th in enumerate(Theta):
@@ -68,15 +70,16 @@ for m in range(nRep):
         d = (func(_T[0], _T[1], x_train, y_train, N) - func(Theta[0], Theta[1], x_train, y_train, N)) / alpha
         gr[it] = d
     Theta = Theta - lr *  gr
-    print("cost: ", func(Theta[0], Theta[1], x_train, y_train, N))
-    if (m % 50 == 0):
+    print("it: ", m,"cost: ", func(Theta[0], Theta[1], x_train, y_train, N), "th: ", Theta)
+    if (m % 10 == 0):
         plt.plot(Theta[0], Theta[1], ".", c="white")
 
 
-x = np.linspace(0, np.max(x_train))
+x = np.linspace(3, np.max(x_train))
 plt.plot(Theta[0], Theta[1], "o", c="black")
 plt.show()
-print(Theta)
 plt.plot(x_test, y_test, "o", c="red")
+plt.xlabel("RM")
+plt.ylabel("MEDV")
 plt.plot(x, Theta[0] + Theta[1] * x, "-", c="blue")
 plt.show()
